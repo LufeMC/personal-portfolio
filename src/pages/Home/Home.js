@@ -52,7 +52,7 @@ const Home = (props) => {
                 return (
                     <ReactFullpage.Wrapper>
                         <Helmet>
-                            <title>Luis Cerqueira</title>
+                            <title>Luis Cerqueira | Home</title>
                         </Helmet>
                         <Intro />
                         <About animated={about} />

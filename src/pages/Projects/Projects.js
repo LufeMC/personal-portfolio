@@ -18,7 +18,7 @@ const Projects = () => {
     return (
         <Container backgroundColor='#1E232B' text={'Projects'}>
             <Helmet>
-                <title>Luis Cerqueira - Projects</title>
+                <title>Luis Cerqueira | Projects</title>
             </Helmet>
             <div className='projects_container'>
                 {projects.map((project) => {
