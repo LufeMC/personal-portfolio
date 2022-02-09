@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Route, Switch } from "react-router-dom"; // <-- New code
 import Home from "./pages/Home/Home";
+import Projects from "./pages/Projects/Projects";
 
 const ROUTES = [
     { path: "/", key: "ROOT", exact: true, component: Home },
+    { path: "/projects", key: "ROOT", exact: true, component: Projects },
     // {
     //     path: "/app",
     //     key: "APP",
@@ -32,22 +34,16 @@ function RouteWithSubRoutes(route) {
         <Route
             path={route.path}
             exact={route.exact}
-            render={props => <route.component background={route.background} changeBackground={route.changeBackground} {...props} routes={route.routes} />}
+            render={props => <route.component {...props} routes={route.routes} />}
         />
     );
 }
 
-export function RenderRoutes({ routes, background, changeBackground }) {
-    const [background2, setBackground] = useState(background)
-
-    useEffect(() => {
-        changeBackground(background2)
-    }, [background2])
-
+export function RenderRoutes({ routes }) {
     return (
         <Switch>
             {routes.map((route, i) => {
-                return <RouteWithSubRoutes background={background2} changeBackground = {setBackground} key={route.key} {...route} />;
+                return <RouteWithSubRoutes key={route.key} {...route} />;
             })}
             <Route component={() => <h1>Not Found!</h1>} />
         </Switch>

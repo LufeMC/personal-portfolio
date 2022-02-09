@@ -1,0 +1,481 @@
+@function pow($number, $exp) {
+  $value: 1;
+  @if $exp > 0 {
+    @for $i from 1 through $exp {
+      $value: $value * $number;
+    }
+  } @else if $exp < 0 {
+    @for $i from 1 through -$exp {
+      $value: $value / $number;
+    }
+  }
+  @return $value;
+}
+
+@function fact($number) {
+  $value: 1;
+  @if $number > 0 {
+    @for $i from 1 through $number {
+      $value: $value * $i;
+    }
+  }
+  @return $value;
+}
+
+@function pi() {
+  @return 3.14159265359;
+}
+
+@function rad($angle) {
+  $unit: unit($angle);
+  $unitless: $angle / ($angle * 0 + 1);
+  // If the angle has 'deg' as unit, convert to radians.
+  @if $unit == deg {
+    $unitless: $unitless / 180 * pi();
+  }
+  @return $unitless;
+}
+
+@function sin($angle) {
+  $sin: 0;
+  $angle: rad($angle);
+  // Iterate a bunch of times.
+  @for $i from 0 through 10 {
+    $sin: $sin + pow(-1, $i) * pow($angle, (2 * $i + 1)) / fact(2 * $i + 1);
+  }
+  @return $sin;
+}
+
+@function cos($angle) {
+  $cos: 0;
+  $angle: rad($angle);
+  // Iterate a bunch of times.
+  @for $i from 0 through 10 {
+    $cos: $cos + pow(-1, $i) * pow($angle, 2 * $i) / fact(2 * $i);
+  }
+  @return $cos;
+}
+
+@mixin shade($type, $color: #3498db, $borderColor: #fff, $depth: 20, $angle: 135deg, $long: false, $fade: false) {
+  $angle: ($angle - 90);
+  $x: 1.1 * cos($angle) + 0px;
+  $y: 1.1 * sin($angle) + 0px;
+  $darken: (lightness($color) / $depth)/2;
+  $opacify: 0;
+  $shadow: ();
+
+  @if $long == true {
+    $darken: 0;
+  }
+
+  @if $fade == true {
+    $opacify: (opacity($color) / $depth);
+    // added this for rendering in some browsers, remove if you like.
+    @include translateZ(0);
+  }
+
+  @for $i from 1 through $depth {
+    $shadow: $shadow,
+      $i * $x $i * $y 0 hsla(hue($color), saturation($color), (lightness($color) - ($i * $darken)), 1 - ($i * $opacify));
+  }
+  #{$type}-shadow: 1.5px 1.5px 0 $borderColor, 0px 1.5px 0 $borderColor, -1.5px -1.5px 0 $borderColor,
+    -1.5px -1.5px 0 $borderColor, -1.5px 1.5px 0 $borderColor, 1.5px -1.5px 0 $borderColor, $shadow;
+}
+
+//mixin to provide just a basic outline for the text
+@mixin outline($color: #fff) {
+  text-shadow: 1.5px 1.5px 0 $color, -1.5px -1.5px 0 $color, -1.5px -1.5px 0 $color, -1.5px 1.5px 0 $color,
+    1.5px -1.5px 0 $color;
+}
+
+// Define the colors
+$pink: #e91e63;
+$yellow: #ca8a00;
+$white: #fff;
+$black: #1e232b;
+
+.aboutContainer {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+
+  @media only screen and (max-width: 600px) {
+    flex-direction: column;
+    height: 90%;
+  }
+
+  .headingWrapper {
+    text-align: center;
+    background-color: transparent;
+    padding: 10px;
+    width: fit-content;
+  }
+
+  // default header class – used on all examples
+  .header {
+    text-align: center;
+    font-family: "Poppins";
+    font-weight: 600;
+    font-size: 8em;
+    color: $white;
+    transition: all 400ms ease-in-out;
+  }
+
+  // raising text from page when hovered, so flipped state to header--pushDown class
+  .header--raiseUp {
+    font-size: 0;
+
+    &:hover {
+      transform: translate(-9px, -9px);
+      @include shade(text, #aaa, #333, 10, 135deg, true);
+    }
+  }
+
+  .animated {
+    animation: shopUpAppear 0.1s cubic-bezier(0.74, 0.06, 0.4, 0.92) forwards,
+      disappearAppear 1ms cubic-bezier(0.74, 0.06, 0.4, 0.92) forwards;
+    position: relative;
+  }
+
+  .animated1 {
+    animation-delay: 0.2s, 0.7s;
+  }
+
+  .animated2 {
+    animation-delay: 0.3s, 0.7s;
+  }
+
+  .animated3 {
+    animation-delay: 0.4s, 0.7s;
+  }
+
+  .animated4 {
+    animation-delay: 0.5s, 0.7s;
+  }
+
+  .animated5 {
+    animation-delay: 0.6s, 0.7s;
+  }
+
+  .header--raiseUp.animated {
+    animation: shopUpTitle 1ms cubic-bezier(0.74, 0.06, 0.4, 0.92) forwards;
+    animation-delay: 701ms;
+  }
+
+  //Brighter colored text
+  .color-bright {
+    & .header {
+      color: $white;
+      @include outline($black);
+      cursor: default;
+    }
+
+    //raise up text
+    & .header--raiseUp:hover {
+      @include shade(text, $black, #fff, 10, 135deg, true);
+    }
+
+    & .appearAbout {
+      opacity: 0;
+    }
+  }
+
+  @keyframes shopUpAppear {
+    0% {
+      opacity: 0;
+      top: -80px;
+    }
+
+    100% {
+      opacity: 1;
+      top: 0px;
+    }
+  }
+
+  @keyframes shopUpTitle {
+    0% {
+      font-size: 0;
+    }
+
+    100% {
+      font-size: 8em;
+    }
+  }
+
+  @keyframes shopUpTitleMobile {
+    0% {
+      font-size: 0;
+    }
+
+    100% {
+      font-size: 6em;
+    }
+  }
+
+  @keyframes disappearAppear {
+    from {
+      font-size: 8em;
+    }
+
+    to {
+      font-size: 0;
+    }
+  }
+
+  @keyframes disappearAppearMobile {
+    from {
+      font-size: 6em;
+    }
+
+    to {
+      font-size: 0;
+    }
+  }
+
+  .center {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    align-content: flex-end;
+  }
+
+  .aboutText {
+    width: 100%;
+    font-size: 2em;
+    text-align: end;
+    color: white;
+    opacity: 0;
+    font-family: "Lato";
+  }
+
+  .aboutText.animated {
+    animation: focus-in-expand 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s forwards;
+  }
+
+  @keyframes focus-in-expand {
+    0% {
+      filter: blur(12px);
+      opacity: 0;
+    }
+    100% {
+      filter: blur(0px);
+      opacity: 1;
+    }
+  }
+
+  .aboutBar {
+    height: 0;
+    width: 10px;
+    background-color: white;
+    margin: 2.5em;
+
+    @media only screen and (max-width: 600px) {
+      height: 10px;
+      width: 0;
+    }
+  }
+
+  .aboutBar.animated {
+    animation: come-from-up 0.1s forwards;
+
+    @media only screen and (max-width: 600px) {
+      animation: come-from-side 0.1s forwards;
+    }
+  }
+
+  @keyframes come-from-up {
+    0% {
+      height: 0;
+    }
+    100% {
+      height: 75%;
+    }
+  }
+
+  @keyframes come-from-side {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 75%;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .aboutContainer {
+    display: flex;
+    width: 100%;
+    height: fit-content;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+
+    .headingWrapper {
+      text-align: center;
+      background-color: transparent;
+      padding: 10px;
+      width: fit-content;
+    }
+
+    // default header class – used on all examples
+    .header {
+      text-align: center;
+      font-family: "Poppins";
+      font-weight: 600;
+      font-size: 6em;
+      color: $white;
+      transition: all 400ms ease-in-out;
+    }
+
+    // raising text from page when hovered, so flipped state to header--pushDown class
+    .header--raiseUp {
+      font-size: 0;
+
+      &:hover {
+        transform: translate(-9px, -9px);
+        @include shade(text, #aaa, #333, 10, 135deg, true);
+      }
+    }
+
+    .animated {
+      animation: shopUpAppear 0.1s cubic-bezier(0.74, 0.06, 0.4, 0.92) forwards,
+        disappearAppearMobile 1ms cubic-bezier(0.74, 0.06, 0.4, 0.92) forwards;
+      position: relative;
+    }
+
+    .animated1 {
+      animation-delay: 0.2s, 0.7s;
+    }
+
+    .animated2 {
+      animation-delay: 0.3s, 0.7s;
+    }
+
+    .animated3 {
+      animation-delay: 0.4s, 0.7s;
+    }
+
+    .animated4 {
+      animation-delay: 0.5s, 0.7s;
+    }
+
+    .animated5 {
+      animation-delay: 0.6s, 0.7s;
+    }
+
+    .header--raiseUp.animated {
+      animation: shopUpTitleMobile 1ms cubic-bezier(0.74, 0.06, 0.4, 0.92) forwards;
+      animation-delay: 701ms;
+    }
+
+    //Brighter colored text
+    .color-bright {
+      & .header {
+        color: $white;
+        @include outline($black);
+        cursor: default;
+      }
+
+      //raise up text
+      & .header--raiseUp:hover {
+        @include shade(text, $black, #fff, 10, 135deg, true);
+      }
+
+      & .appearAbout {
+        opacity: 0;
+      }
+    }
+
+    @keyframes shopUpAppear {
+      0% {
+        opacity: 0;
+        top: -80px;
+      }
+
+      100% {
+        opacity: 1;
+        top: 0px;
+      }
+    }
+
+    @keyframes shopUpTitleMobile {
+      0% {
+        font-size: 0;
+      }
+
+      100% {
+        font-size: 6em;
+      }
+    }
+
+    @keyframes disappearAppearMobile {
+      from {
+        font-size: 6em;
+      }
+
+      to {
+        font-size: 0;
+      }
+    }
+
+    .center {
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+    }
+
+    .aboutText {
+      width: 90%;
+      font-size: 1.8em;
+      text-align: center;
+      color: white;
+      opacity: 0;
+      font-family: "Lato";
+    }
+
+    .aboutText.animated {
+      animation: focus-in-expand 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s forwards;
+    }
+
+    @keyframes focus-in-expand {
+      0% {
+        filter: blur(12px);
+        opacity: 0;
+      }
+      100% {
+        filter: blur(0px);
+        opacity: 1;
+      }
+    }
+
+    .aboutBar {
+      height: 10px;
+      width: 0;
+      background-color: white;
+      margin: 2.5em;
+    }
+
+    .aboutBar.animated {
+      animation: come-from-side 0.1s forwards;
+    }
+
+    @keyframes come-from-side {
+      0% {
+        width: 0;
+      }
+      100% {
+        width: 75%;
+      }
+    }
+  }
+}
