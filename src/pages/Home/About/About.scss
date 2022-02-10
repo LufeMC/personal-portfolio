@@ -102,7 +102,7 @@ $black: #1e232b;
   align-items: center;
   align-content: center;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 900px) {
     flex-direction: column;
     height: 90%;
   }
@@ -274,7 +274,7 @@ $black: #1e232b;
     background-color: white;
     margin: 2.5em;
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 900px) {
       height: 10px;
       width: 0;
     }
@@ -283,7 +283,7 @@ $black: #1e232b;
   .aboutBar.animated {
     animation: come-from-up 0.1s forwards;
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 900px) {
       animation: come-from-side 0.1s forwards;
     }
   }
@@ -307,7 +307,7 @@ $black: #1e232b;
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 900px) {
   .aboutContainer {
     display: flex;
     width: 100%;

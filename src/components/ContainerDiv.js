@@ -9,7 +9,7 @@ const ContainerDiv = styled.div`
     margin: auto;
     overflow: hidden;
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 900px) {
         width: 100%;
     }
 `

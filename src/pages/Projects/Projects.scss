@@ -10,7 +10,7 @@
     flex-wrap: wrap;
     overflow: auto;
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 900px) {
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;

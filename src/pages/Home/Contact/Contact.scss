@@ -107,7 +107,7 @@ $black: #1e232b;
     align-content: center;
     opacity: 0;
 
-    @media only screen and (max-width: 600px) {
+    @media only screen and (max-width: 900px) {
         width: 90%;
         margin: auto;
     }
@@ -146,7 +146,7 @@ $black: #1e232b;
             align-content: center;
             width: 100%;
             
-            @media only screen and (max-width: 600px) {
+            @media only screen and (max-width: 900px) {
                 flex-direction: column;
                 justify-content: center;
             }
@@ -160,7 +160,7 @@ $black: #1e232b;
             justify-content: center;
             padding: 1em 0;
 
-            @media only screen and (max-width: 600px) {
+            @media only screen and (max-width: 900px) {
                 padding: .2em 0;
                 width: 100%;
                 align-content: center;
@@ -176,7 +176,7 @@ $black: #1e232b;
                 border-radius: 5px;
                 color: $yellow;
 
-                @media only screen and (max-width: 600px) {
+                @media only screen and (max-width: 900px) {
                     width: 80%;
                 }
             }
@@ -202,7 +202,7 @@ $black: #1e232b;
                 border-radius: 5px;
                 color: $yellow;
 
-                @media only screen and (max-width: 600px) {
+                @media only screen and (max-width: 900px) {
                     width: 90%;
                     padding: .2em 0;
                 }
@@ -228,7 +228,7 @@ $black: #1e232b;
         transition: all 400ms ease-in-out;
         margin: 0;
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 900px) {
             font-size: 4em;
         }
     }
@@ -237,7 +237,7 @@ $black: #1e232b;
     .header--raiseUp {
         font-size: 6em;
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 900px) {
             font-size: 4em;
         }
 

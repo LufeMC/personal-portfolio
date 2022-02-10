@@ -10,7 +10,7 @@ const Greeting = () => {
 
                     <div class="title">
                         <div class="first_block"></div>
-                        <h1><span></span>Luis Cerqueira</h1>
+                        <h1><span></span>Luis Fernando</h1>
                     </div>
 
                     <div class="role">
